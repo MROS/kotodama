@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "outDir": "./",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "target": "es5",
+        "allowJs": true,
+        "typeRoots": [
+            "./node_modules/@types"
+		],
+		"lib": [
+			"dom",
+			"es2015"
+		]
+	},
+	"include": [
+		"./src/**/*"
+	],
+	"files": [
+		"./app.ts"
+	]
+}
