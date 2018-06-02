@@ -1,0 +1,18 @@
+{
+  "name": "kotodama",
+  "version": "0.0.1",
+  "description": "言靈",
+  "scripts": {
+    "lint": "eslint ./",
+    "serve": "parcel app/index.html"
+  },
+  "author": "MROS",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.26.3"
+  },
+  "dependencies": {
+    "truffle-contract": "^1.1.11",
+    "web3": "^0.20.0"
+  }
+}
