@@ -4,15 +4,7 @@
   "description": "言靈",
   "scripts": {
     "lint": "eslint ./",
-    "serve": "parcel app/index.html"
+    "serve": "cd app; parcel index.html"
   },
-  "author": "MROS",
-  "license": "MIT",
-  "devDependencies": {
-    "babel-core": "^6.26.3"
-  },
-  "dependencies": {
-    "truffle-contract": "^1.1.11",
-    "web3": "^0.20.0"
-  }
+  "author": "MROS"
 }
