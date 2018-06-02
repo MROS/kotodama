@@ -27,13 +27,26 @@ npm install -g truffle # 若有權限問題，請使用 sudo
 npm install -g ganache-cli # 若有權限問題，請使用 sudo
 ```
 
-### 開始佈屬
+### 開始佈署
 
 ``` sh
 git clone https://github.com/MROS/kotodama # clone 本 repo
+cd kotodama
 cd dapp
 truffle compile # 編譯智能合約
 ganache-cli     # 開啓本地端節點
-truffle migrate # 佈屬合約到本地端節點
+truffle migrate # 佈署合約到本地端節點
 npm run serve   # 編譯前端程式碼，並開啓一個本地端網頁伺服器
+```
+
+## 目錄結構
+
+```
+.
+├── app            # 前端
+├── contracts      # 智能合約
+├── migrations     # 佈署腳本
+├── test           # 測試
+└── truffle.js     # truffle 設定檔
+
 ```
