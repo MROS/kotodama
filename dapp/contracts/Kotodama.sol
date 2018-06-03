@@ -1,24 +1,21 @@
-pragma solidity ^0.4.16;
+pragma solidity ^0.4.24;
 
-contract Kotodama {
+contract Kotodamas {
     
     event Transfer(address from, address to, uint256 tokenId);
     
     struct Kotodama {
         string content;
+        uint256 price;
+        address owner;
     }
     
     Kotodama[] kotos;
-    
-    mapping (uint256 => address) public KotoIDToOwner;
-    mapping (uint256 => uint256) public KotoIDToPrice;
-    
+
     // create Kotodama
-    function _createKoto(string _content, address _owner) returns (uint256) {
-        Kotodama memory newKoto = Kotodama({content: _content});
+    function _createKoto(string _content, address _owner) internal returns (uint256)  {
+        Kotodama memory newKoto = Kotodama({content: _content, price: 0, owner: 0});
         uint256 newKotoID = kotos.push(newKoto) - 1;
-        
-        KotoIDToPrice[newKotoID] = 0;
         
         // TODO: KotoID overflow check
         
@@ -29,31 +26,46 @@ contract Kotodama {
         return newKotoID;
     }
     
-    // set Kotodama price
-    function set_price(uint256 kotoID, uint256 price) returns(bool) {
-        // TODO: price value check;
-        KotoIDToPrice[kotoID] = price;
-        
+    // set Kotodama price internal function
+    function _set_price(uint256 kotoID, uint256 _price) internal returns(bool) {
+        kotos[kotoID].price = _price;
         return true;
     }
     
+    // public set price function by owner
+    function SetPrice(uint256 kotoID, uint256 _price) public returns(bool) {
+        // check kotomata owner
+        if(msg.sender == kotos[kotoID].owner) {
+            // price value check;
+            if(_price < 0) return false;
+            // TODO: price overflow check
+            return _set_price(kotoID, _price);
+        } else {
+            return false;
+        }
+    }
+    
     // get Kotodama price by kotoID
-    function get_price(uint256 kotoID) returns (uint256) {
-        uint256 price = KotoIDToPrice[kotoID];
-        return price;
+    function GetPrice(uint256 kotoID) public view returns (uint256) {
+        return kotos[kotoID].price;
     }
     
     // get kotodama content by kotoID
-    function get_koto(uint256 kotoID) returns (string) {
+    function GetKotoContent(uint256 kotoID) public view returns (string) {
         return kotos[kotoID].content;
+    }
+    
+    function GetOwner(uint256 kotoID) public view returns (address) {
+        return kotos[kotoID].owner;
     }
     
     // transfer kotodama from _from to _to by kotoID
     function _transfer(address _from, address _to, uint256 kotoID) internal {
-        KotoIDToOwner[kotoID] = _to;
+        kotos[kotoID].owner = _to;
         
         // Emit the transfer event.
-        Transfer(_from, _to, kotoID);
+        emit Transfer(_from, _to, kotoID);
     }
     
 }
+
