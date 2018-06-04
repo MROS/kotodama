@@ -17,9 +17,8 @@ let _style = {
 };
 let selected_style = {
     color: "white",
-    backgroundColor: "rgb(30, 30, 30)",
     textDecoration: "underline",
-    textDecorationColor: "gray"
+	textDecorationColor: "white",
 };
 
 export default class LabelComponent extends React.Component<LabelProp, null> {
@@ -29,7 +28,8 @@ export default class LabelComponent extends React.Component<LabelProp, null> {
                 {
                     this.props.labels.map((txt, i) => {
                         return (
-                            <div onClick={() => this.props.onClick(i)}
+							<div key={i}
+								onClick={() => this.props.onClick(i)}
                                 style={{
                                     ..._style,
                                     ...(this.props.selected_index == i ? selected_style : {})

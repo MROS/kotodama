@@ -8,10 +8,22 @@
   "author": "MROS",
   "license": "MIT",
   "devDependencies": {
-    "babel-core": "^6.26.3"
+    "@fortawesome/fontawesome-free-solid": "^5.0.13",
+    "awesome-typescript-loader": "^5.0.0",
+    "babel-core": "^6.26.3",
+    "source-map-loader": "^0.2.3",
+    "ts-loader": "^4.3.1",
+    "typescript": "^2.8.3"
   },
   "dependencies": {
     "truffle-contract": "^1.1.11",
-    "web3": "^0.20.6"
+    "web3": "^0.20.6",
+    "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/fontawesome-free-regular": "^5.0.13",
+    "@fortawesome/react-fontawesome": "0.0.20",
+    "@types/react": "^16.3.14",
+    "@types/react-dom": "^16.0.5",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0"
   }
 }

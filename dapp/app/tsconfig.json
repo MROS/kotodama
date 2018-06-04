@@ -5,8 +5,10 @@
         //"noImplicitAny": true,   FUCK this line.
         "module": "commonjs",
         "target": "es6",
-        "jsx": "react"
-    },
+		"jsx": "react",
+		"types": [ "node" ],
+		"typeRoots": [ "../node_modules/@types" ]
+	},
     "include": [
         "./src/**/*"
     ],
