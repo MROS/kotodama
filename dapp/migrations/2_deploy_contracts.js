@@ -1,5 +1,5 @@
-const Kotodama = artifacts.require("./Kotodama.sol");
+const Kotodamas = artifacts.require("./Kotodamas");
 
 module.exports = function(deployer) {
-  deployer.deploy(Kotodama);
+  deployer.deploy(Kotodamas);
 };
