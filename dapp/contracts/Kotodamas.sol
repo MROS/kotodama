@@ -154,6 +154,10 @@ contract Kotodamas is ERC721 {
     function balanceOf(address _owner) external view returns (uint256 count) {
         return ownershipTokenCount[_owner];
     }
-    
+ 
+    ///  Return approved address by kotoID
+    function getApproved(uint256 _tokenId) external view returns (address) {
+        return kotoIDToApproved[_tokenId];
+    }
 }
 
