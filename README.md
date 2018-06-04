@@ -36,6 +36,7 @@ cd dapp
 truffle compile # 編譯智能合約
 ganache-cli     # 開啓本地端節點
 truffle migrate # 佈署合約到本地端節點
+npm install     # 安裝前端所需工具
 npm run serve   # 編譯前端程式碼，並開啓一個本地端網頁伺服器
 ```
 
