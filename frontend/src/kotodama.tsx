@@ -5,13 +5,14 @@ import { faStar } from "@fortawesome/fontawesome-free-solid";
 import { faStar as hollowStar } from "@fortawesome/fontawesome-free-regular";
 
 const div_style = {
-    backgroundColor: "rgb(80, 80, 80)",
+    backgroundColor: "#DA5872",
     display: "inline",
     borderRadius: "3px",
     padding: "7px",
     color: "white",
     userSelect: "none" as any
 };
+
 const star_style = {
     cursor: "pointer"
 }
@@ -47,19 +48,14 @@ export default class Kotodama extends React.Component<KotodamaProps, { dragging:
         this.setState({ dragging: false });
     }
     render() {
-        let opacity = (() => {
-            if(this.state.dragging) {
-                return 0;
-            } else {
-                return this.props.fav ? 1 : 0.7;
-            }
-        })();
-        if(this.props.draggable) {
-            div_style["cursor"] = "move";
-        }
+        let _style = {
+            ...(this.props.fav ? {} : { backgroundColor: "transparent" }),
+            cursor: this.props.draggable ? "move" : "default",
+            opacity: this.state.dragging ? 0 : 1 
+        };
         return (
             <div draggable={this.props.draggable}
-                style={{...div_style, opacity }}
+                style={{...div_style, ..._style }}
                 onDrag={this.onDrag} onDrop={this.onDrop} onDragEnd={this.onDragEnd}>
                 <FontAwesomeIcon style={star_style}
                     onClick={() => this.props.setFav(!this.props.fav)}
