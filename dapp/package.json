@@ -1,0 +1,10 @@
+{
+  "name": "kotodama",
+  "version": "0.0.1",
+  "description": "言靈",
+  "scripts": {
+    "lint": "eslint ./",
+    "serve": "cd app; parcel index.html"
+  },
+  "author": "MROS"
+}
