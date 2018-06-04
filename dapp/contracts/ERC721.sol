@@ -18,7 +18,7 @@ contract ERC721 {
 
     /// @dev This emits when an operator is enabled or disabled for an owner.
     ///  The operator can manage all NFTs of the owner.
-    event ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved);
+    //event ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved);
 
     /// @notice Count all NFTs assigned to an owner
     /// @dev NFTs assigned to the zero address are considered invalid, and this
