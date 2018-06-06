@@ -1,5 +1,7 @@
 pragma solidity ^0.4.24;
 
+import "./ERC721.sol";
+
 contract Kotodamas is ERC721 {
     
     event Transfer(address from, address to, uint256 tokenId);
