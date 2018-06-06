@@ -5,13 +5,15 @@ contract Kotodamas is ERC721 {
     event Transfer(address from, address to, uint256 tokenId);
     
     struct Kotodama {
-        string content;
+        uint16[] content;
         uint256 price;
         address owner;
     }
     
     mapping (address => uint256) ownershipTokenCount;
-    mapping (string => uint256) kotoToID;
+    
+    ///  Mapping keccak256 hash of content array to kotoID
+    mapping (bytes32 => uint256) kotoToID;
     
     ///  Mapping from kotoID to approved address.
     ///  Each kotodama can have only one approved address, a zero value mean no approval.
@@ -25,10 +27,13 @@ contract Kotodamas is ERC721 {
     }
 
     ///  Create Kotodama (internal function)
-    function _createKoto(string _content, address _owner) internal returns (uint256)  {
+    function _createKoto(uint16[] _content, address _owner) internal returns (uint256)  {
         Kotodama memory newKoto = Kotodama({content: _content, price: 0, owner: 0});
         uint256 newKotoID = kotos.push(newKoto) - 1;
-        kotoToID[_content] = newKotoID;
+        
+        // calculate the hash of content array
+        bytes32 _hash = keccak256(abi.encodePacked(_content));
+        kotoToID[_hash] = newKotoID;
         
         // TODO: KotoID overflow check
         
@@ -94,8 +99,8 @@ contract Kotodamas is ERC721 {
         return kotos[kotoID].price;
     }
     
-    ///  Get kotodama content by kotoID
-    function GetKotoContent(uint256 kotoID) public view returns (string) {
+    ///  Get kotodama content(uint16 array) by kotoID
+    function GetKotoContent(uint256 kotoID) public view returns (uint16[]) {
         return kotos[kotoID].content;
     }
     
@@ -154,10 +159,22 @@ contract Kotodamas is ERC721 {
     function balanceOf(address _owner) external view returns (uint256 count) {
         return ownershipTokenCount[_owner];
     }
- 
-    ///  Return approved address by kotoID
+    
+    ///  Return approved address
     function getApproved(uint256 _tokenId) external view returns (address) {
         return kotoIDToApproved[_tokenId];
     }
+    
+    /// get hash by kotoID
+    function GetHash(uint256 _kotoID) public view returns(bytes32) {
+        bytes32 _hash = keccak256(abi.encodePacked(kotos[_kotoID].content));
+        return _hash;
+    }
+    
+    ///  for @dev test (create koto)
+    function add_test(uint16[] content, address owner) public {
+        _createKoto(content, owner);
+    }
+    
 }
 
