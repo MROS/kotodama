@@ -1,9 +1,9 @@
 {
   "name": "kotodama",
   "version": "0.0.1",
-  "description": "言靈",
+  "description": "言靈-前端",
   "scripts": {
-    "serve": "parcel app/index.html"
+    "serve": "parcel ./index.html"
   },
   "author": "MROS",
   "license": "MIT",
@@ -16,14 +16,15 @@
     "typescript": "^2.8.3"
   },
   "dependencies": {
-    "truffle-contract": "^1.1.11",
-    "web3": "^0.20.6",
     "@fortawesome/fontawesome": "^1.1.8",
     "@fortawesome/fontawesome-free-regular": "^5.0.13",
     "@fortawesome/react-fontawesome": "0.0.20",
     "@types/react": "^16.3.14",
     "@types/react-dom": "^16.0.5",
+    "antd": "^3.6.1",
     "react": "^16.4.0",
-    "react-dom": "^16.4.0"
+    "react-dom": "^16.4.0",
+    "truffle-contract": "^1.1.11",
+    "web3": "^0.20.6"
   }
 }

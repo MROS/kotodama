@@ -17,6 +17,7 @@ let _style = {
 };
 let selected_style = {
     color: "white",
+    backgroundColor: "rgb(30, 30, 30)",
     textDecoration: "underline",
 	textDecorationColor: "white",
 };

@@ -5,7 +5,6 @@ import { faStar } from "@fortawesome/fontawesome-free-solid";
 import { faStar as hollowStar } from "@fortawesome/fontawesome-free-regular";
 
 const div_style = {
-    backgroundColor: "#DA5872",
     display: "inline",
     borderRadius: "3px",
     padding: "7px",
@@ -20,8 +19,7 @@ const star_style = {
 type KotodamaProps = {
     txt: string,
     setFav: (fav: boolean) => void,
-    onDrag: (evt: React.DragEvent<HTMLDivElement>) => void,
-    onDrop: (evt: React.DragEvent<HTMLDivElement>) => void,
+    onDrag: (txt: string) => void,
     fav?: boolean,
     draggable?: boolean
 };
@@ -33,30 +31,26 @@ export default class Kotodama extends React.Component<KotodamaProps, { dragging:
             dragging: false
         };
         this.onDrag = this.onDrag.bind(this);
-        this.onDrop = this.onDrop.bind(this);
         this.onDragEnd = this.onDragEnd.bind(this);
     }
-    onDrag(evt) {
+    onDrag(evt: React.DragEvent<HTMLDivElement>) {
         this.setState({ dragging: true });
-        this.props.onDrag(evt);
+        this.props.onDrag(this.props.txt);
     }
-    onDrop(evt) {
-        this.setState({ dragging: false });
-        this.props.onDrop(evt);
-    }
+    
     onDragEnd(evt) {
         this.setState({ dragging: false });
     }
     render() {
         let _style = {
-            ...(this.props.fav ? {} : { backgroundColor: "transparent" }),
+            backgroundColor: this.props.fav ? "#DA5872" : "rgb(70, 70, 70)",
             cursor: this.props.draggable ? "move" : "default",
             opacity: this.state.dragging ? 0 : 1 
         };
         return (
             <div draggable={this.props.draggable}
                 style={{...div_style, ..._style }}
-                onDrag={this.onDrag} onDrop={this.onDrop} onDragEnd={this.onDragEnd}>
+                onDrag={this.onDrag} onDragEnd={this.onDragEnd}>
                 <FontAwesomeIcon style={star_style}
                     onClick={() => this.props.setFav(!this.props.fav)}
                     icon={this.props.fav ? faStar : hollowStar} />

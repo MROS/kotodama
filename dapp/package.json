@@ -4,10 +4,8 @@
   "description": "言靈",
   "scripts": {
     "lint": "eslint ./",
-    "serve": "cd app; parcel index.html"
+    "serve": "cd app; npm run serve"
   },
   "author": "MROS",
-  "devDependencies": {
-    "parcel": "^1.8.1"
-  }
+  "devDependencies": {}
 }
