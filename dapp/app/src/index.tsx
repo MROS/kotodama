@@ -35,6 +35,7 @@ const bottom_window_style = {
     display: "flex",
     flexDirection: "column" as any,
     width: "100%",
+    transition: "all 0.4s"
 };
 const popup_bottom_style = {
     flex: 1,
