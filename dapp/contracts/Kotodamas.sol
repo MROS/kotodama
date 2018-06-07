@@ -21,7 +21,7 @@ contract Kotodamas is ERC721 {
     ///  Each kotodama can have only one approved address, a zero value mean no approval.
     mapping (uint256 => address) public kotoIDToApproved;
     
-    Kotodama[] kotos;
+    Kotodama[] public kotos;
 
     ///  Kotodamas Constructor
     constructor() public {
@@ -82,6 +82,11 @@ contract Kotodamas is ERC721 {
     function _approvedFor(address _claimant, uint256 _kotoID) internal view returns (bool) {
         return kotoIDToApproved[_kotoID] == _claimant;
     }
+
+    // 回傳目前所有言靈，方便 debug 之用，日後可能移除
+    // function GetAllKotos() public view returns (Kotodamas[]) {
+    //     return kotos;
+    // }
     
     ///  Public setting price function by owner
     function SetPrice(uint256 kotoID, uint256 _price) public returns(bool) {
@@ -154,7 +159,7 @@ contract Kotodamas is ERC721 {
     
     ///  Get the Owner by kotoID
     function ownerOf(uint256 _tokenId) external view returns (address){
-         return kotos[_tokenId].owner;
+        return kotos[_tokenId].owner;
     }
     
     ///  Return someone's token count
