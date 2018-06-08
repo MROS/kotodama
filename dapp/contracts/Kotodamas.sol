@@ -25,7 +25,28 @@ contract Kotodamas is ERC721 {
 
     ///  Kotodamas Constructor
     constructor() public {
-        // TODO something
+        _initCreate();
+    }
+
+    ///  Initial Kotodamas Creation function (internal), only called by constructor.
+    ///  @dev 有可能有效率 or 成本過高的問題，待測
+    function _initCreate() internal {
+        uint16 i = 0;
+        uint16 WORD_SIZE = 4808;
+        uint16[] memory tmp = new uint16[](1);
+        for(i = 0; i < WORD_SIZE; i++) {
+            tmp[0] = i;
+            Kotodama memory newKoto = Kotodama({content: tmp, price: 0, owner: 0});
+            uint256 newKotoID = kotos.push(newKoto) - 1;
+            
+            // calculate the hash of content array
+            bytes32 _hash = keccak256(abi.encodePacked(tmp));
+            kotoToID[_hash] = newKotoID;
+            
+            // This will assign ownership, and also emit the Transfer event as
+            // per ERC721 draft
+            _transfer(0, msg.sender, newKotoID);
+        }
     }
 
     ///  Create Kotodama (internal function)
