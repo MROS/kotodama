@@ -11,7 +11,7 @@ let container_style = {
     width: "20%",
     maxWidth: "300px",
     textAlign: "center" as any,
-    position: "relative" as any
+	position: "relative" as any,
 };
 type ContainerProps = {
     pos: [number, number],
@@ -21,18 +21,25 @@ type ContainerProps = {
     setFav: (txt: string, fav: boolean) => void
     onDrag: (txt: string) => void,
 };
-class MatingContainer extends React.Component<ContainerProps, null> {
+class MatingContainer extends React.Component<ContainerProps, { dragging: boolean }> {
+	state = { dragging: false };
     onDrop(evt: React.DragEvent<HTMLDivElement>) {
-        this.props.onDrop(evt, this.props.pos[0], this.props.pos[1]);
+		this.props.onDrop(evt, this.props.pos[0], this.props.pos[1]);
+		this.setState({ dragging: false });
     }
     allowDrop(evt) {
-        evt.preventDefault();
+		evt.preventDefault();
+		this.setState({ dragging: true });
     }
     render() {
-        let txt = this.props.txt;
+		let txt = this.props.txt;
+		let box_shadow_style = {
+			boxShadow: "inset 0px 0px 10px 3px gray"
+		};
         return (
-            <div style={container_style}
-                onDragOver={this.allowDrop}
+			<div style={{ ...container_style, ...(this.state.dragging ? box_shadow_style : {}) }}
+				onDragLeave={() => this.setState({ dragging: false })}
+                onDragOver={this.allowDrop.bind(this)}
                 onDrop={this.onDrop.bind(this)}>
                 {
                     (() => {
