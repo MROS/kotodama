@@ -10,9 +10,7 @@ let _style = {
 };
 
 const container_style = {
-    display: "inline",
     margin: "15px",
-    float: "left" as any,
 };
 
 type SellingProps = {
@@ -20,18 +18,29 @@ type SellingProps = {
     setFav: (txt: string, fav: boolean) => void
     onDragKotodama: (txt: string) => void,
     fav_table: { [index: string]: boolean },
-    kotodama_state_table: { [index: string]: "mating"|"selling" },
+	kotodama_state_table: { [index: string]: "mating"|"selling" },
+	active: boolean,
 };
 
-export default class SellingWindow extends React.Component<SellingProps, { buyers_addr: string }> {
-    state = { buyers_addr: "" };
+export default class SellingWindow extends React.Component<SellingProps, { prices: Array<string> }> {
+	state = { prices: [] };
+	
     allowDrop(evt) {
         evt.preventDefault();
     }
-    startSelling() {
-        console.log(this.state.buyers_addr);
-    }
+	setPrice(i, str_price) {
+		if(str_price.match(/[^\d]/)) {
+			return false;
+		} else {
+			let prices = this.state.prices.slice();
+			prices[i] = str_price;
+			this.setState({ prices });
+		}
+	}
     render() {
+		if(!this.props.active) {
+			return null;
+		}
         return (
             <div style={_style} onDrop={this.props.onDrop} onDragOver={this.allowDrop}>
                 <div>
@@ -39,26 +48,25 @@ export default class SellingWindow extends React.Component<SellingProps, { buyer
                         Object.keys(this.props.kotodama_state_table).map((txt, i) => {
                             if (this.props.kotodama_state_table[txt] == "selling") {
                                 return (
-                                    <div style={container_style} key={i}>
-                                        <Kotodama txt={txt} draggable={true}
-                                            fav={this.props.fav_table[txt]}
-                                            onDrag={txt => this.props.onDragKotodama(txt)}
-                                            setFav={fav => this.props.setFav(txt, fav)} />
-                                    </div>
-                                );
-                            }
-                        })
-                    }
-                <div style={{ clear: "both" }}></div>
-                </div>
-                <Input style={{ width: "50%", margin: "15px" }}
-                    placeholder="請輸入買家的地址"
-                    value={this.state.buyers_addr}
-                    onChange={e => this.setState({ buyers_addr: e.target.value })}/>
-                <Button type="primary" style={{ margin: "15px" }} onClick={this.startSelling.bind(this)}>
-                    確認出售
+									<div style={container_style} key={i}>
+										<Kotodama txt={txt} draggable={true}
+											fav={this.props.fav_table[txt]}
+											onDrag={txt => this.props.onDragKotodama(txt)}
+											setFav={fav => this.props.setFav(txt, fav)} />
+										<Input style={{ width: "30%", marginLeft: "15px" }}
+											placeholder="請輸入欲售的價錢"
+											value={this.state.prices[i]}
+											onChange={e => this.setPrice(i, e.target.value)} />
+									</div>
+								);
+							}
+						})
+					}
+				</div>
+				<Button type="primary" style={{ margin: "15px" }}>
+					確認出售
                 </Button>
-            </div>
-        );
-    }
+			</div>
+		);
+	}
 }

@@ -1,0 +1,40 @@
+.label(@width: 100,@height: 50 ,@drill: 10,@color: #FFB054,@font-size: 16 ){
+  width: (@width * 1px);
+  height: (@height * 1px);
+  background: @color;
+  position: relative;
+  //arrow
+  &:before{
+    content:"";
+    position: absolute;
+    border-color:transparent @color transparent transparent;
+    border-style:solid;
+    border-width:((@height/2) * 1px);
+    left: -((@height) * 1px - 1);
+  }
+  //hole
+  &:after{
+  content:"";
+  position: absolute;
+  top: ((@height/2) - (@drill/2)) * 1px;
+  left: -((@height/2) - (@drill/2) ) * 1px;
+  width: ((@drill) * 1px);
+  height: ((@drill) * 1px);
+  background: white;
+  border-radius: 50%;
+}
+  //text
+  span{
+    text-align: center;
+    position: absolute;
+    top: ((@height/2) - (@font-size/2)) * 1px;
+    left:0;
+    right: 0;
+    font-weight: bold;
+  }
+
+}
+
+.label{
+  .label(50,25,4);
+}

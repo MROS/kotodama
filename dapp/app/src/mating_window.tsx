@@ -80,7 +80,8 @@ type MatingProps = {
     setFav: (txt: string, fav: boolean) => void
     onDragKotodama: (txt: string) => void,
     fav_table: { [index: string]: boolean },
-    mating_list: Array<[string, string]>,
+	mating_list: Array<[string, string]>,
+	active: boolean,
 };
 export default class MatingWindow extends React.Component<MatingProps, null> {
     renderCol(y: number, txt1: string, txt2: string, fav_table?: {[index:string]:boolean}) {
@@ -103,6 +104,10 @@ export default class MatingWindow extends React.Component<MatingProps, null> {
         );
     }
     render() {
+		if(!this.props.active) {
+			return null;
+		}
+
         let len = this.props.mating_list.length;
         return (
             <div style={_style}>

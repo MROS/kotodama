@@ -6,6 +6,7 @@ import Kotodama from "./kotodama";
 import LabelComponent from "./label_component";
 import MatingWindow from "./mating_window";
 import SellingWindow from "./selling_window";
+import BuyingWindow from "./buying_window";
 import { initContract, initWeb3, getKotodamaList, KotodamaContract } from "./util";
 
 const _style = {
@@ -19,7 +20,7 @@ const _style = {
 const main_window_style = {
     width: "100%",
     backgroundColor: "rgb(30, 30, 30)",
-    flex: 2,
+    flex: 3,
     padding: "10px",
     overflowY: "auto" as any
 };
@@ -31,6 +32,8 @@ const container_style = {
 };
 
 const bottom_window_style = {
+	margin: 0,
+	padding: 0,
     backgroundColor: "rgb(30, 30, 30)",
     display: "flex",
     flexDirection: "column" as any,
@@ -38,11 +41,11 @@ const bottom_window_style = {
     transition: "all 0.4s"
 };
 const popup_bottom_style = {
-    flex: 1,
+    flex: 2,
 };
 
 enum MainWindowEnum { All, Fav };
-enum BottomWindowEnum { Mating, Selling, None };
+enum BottomWindowEnum { Mating, Selling, Buying, None };
 type MainState = {
     kotodama_list: Array<string>,
     fav_table: { [index: string]: boolean },
@@ -196,34 +199,29 @@ class MainPage extends React.Component<null, MainState> {
                     width: "100%", height: "1px", backgroundColor: "gray"
                 }}></div>
                 <div style={{ ...bottom_window_style, ...(this.state.bottom_window == BottomWindowEnum.None ? {} : popup_bottom_style) }}>
-                    <LabelComponent labels={["配種", "出售"]}
-                        selected_index={this.state.bottom_window}
-                        onClick={this.onBottomLabelClick.bind(this)} />
-                    {
-                            (() => {
-                                if (this.state.bottom_window == BottomWindowEnum.Mating) {
-                                return <MatingWindow
-                                    fav_table={this.state.fav_table}
-                                    mating_list={this.state.mating_list}
-                                    setFav={this.setFav.bind(this)}
-                                    onDragKotodama={this.onDragKotodama.bind(this)}
-                                    onDrop={this.onDropMating.bind(this)}/>
-                            } else if(this.state.bottom_window == BottomWindowEnum.Selling) {
-                                return <SellingWindow
-                                    kotodama_state_table={this.state.kotodama_state_table}
-                                    setFav={this.setFav.bind(this)}
-                                    fav_table={this.state.fav_table}
-                                    onDragKotodama={this.onDragKotodama.bind(this)}
-                                    onDrop={this.onDropSelling.bind(this)}/>
-                            } else {
-                                return null;
-                            }
-                        })()
-                    }                    
+                    <LabelComponent labels={["配種", "出售", "購買"]}
+						selected_index={this.state.bottom_window}
+						onClick={this.onBottomLabelClick.bind(this)} />
+					<MatingWindow
+						active={this.state.bottom_window == BottomWindowEnum.Mating}
+						fav_table={this.state.fav_table}
+						mating_list={this.state.mating_list}
+						setFav={this.setFav.bind(this)}
+						onDragKotodama={this.onDragKotodama.bind(this)}
+						onDrop={this.onDropMating.bind(this)} />
+					<SellingWindow
+						active={this.state.bottom_window == BottomWindowEnum.Selling}
+						kotodama_state_table={this.state.kotodama_state_table}
+						setFav={this.setFav.bind(this)}
+						fav_table={this.state.fav_table}
+						onDragKotodama={this.onDragKotodama.bind(this)}
+						onDrop={this.onDropSelling.bind(this)} />
+					<BuyingWindow
+						active={this.state.bottom_window == BottomWindowEnum.Buying}/>
                 </div>
-            </div>
-        );
-    }
+			</div>
+		);
+	}
 }
 
 ReactDOM.render(<MainPage />, document.getElementById("main")

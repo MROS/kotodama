@@ -26,6 +26,8 @@ async function getKotodamaList(kotodamaContract: KotodamaContract): Promise<Arra
 	let list = await instance.kotos;
 	return list;
 }
+function cheatMetaMaskXD() {
+}
 
 export {
 	KotodamaContract,

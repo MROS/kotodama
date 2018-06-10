@@ -11,6 +11,8 @@
     "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "awesome-typescript-loader": "^5.0.0",
     "babel-core": "^6.26.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "less": "^3.0.4",
     "source-map-loader": "^0.2.3",
     "ts-loader": "^4.3.1",
     "typescript": "^2.8.3"
