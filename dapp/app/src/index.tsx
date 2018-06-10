@@ -7,7 +7,7 @@ import LabelComponent from "./label_component";
 import MatingWindow from "./mating_window";
 import SellingWindow from "./selling_window";
 import BuyingWindow from "./buying_window";
-import { initContract, initWeb3, getKotodamaList, KotodamaContract } from "./util";
+import { initContract, initWeb3 } from "./util";
 
 const _style = {
     backgroundColor: "rgb(50, 50, 50)",
@@ -58,7 +58,6 @@ type MainState = {
 
 class MainPage extends React.Component<null, MainState> {
 	private web3: Web3;
-    private kotodamaContract: KotodamaContract;
     constructor(props) {
         super(props);
         this.state = {
@@ -72,7 +71,6 @@ class MainPage extends React.Component<null, MainState> {
             mating_list: [],
 		};
 		this.web3 = initWeb3();
-        this.kotodamaContract = initContract(this.web3);
     }
     componentDidMount() {
         //let list = await getKotodamaList(this.kotodamaContract);

@@ -5,7 +5,6 @@ import Kotodama from "./kotodama";
 import Button from "antd/lib/button";
 import Input from "antd/lib/input";
 
-
 type BuyingProps = {
 	active: boolean,
 };
@@ -84,8 +83,8 @@ export default class BuyingWindow extends React.Component<BuyingProps, BuyingSta
 								return null;
 							}
 							return (
-								<div style={{ margin: "25px" }}>
-									<div style={container_style} key={i}>
+								<div style={{ margin: "25px" }} key={i}>
+									<div style={container_style}>
 										<Kotodama txt={txt}
 											draggable={true}
 											onDrag={this.onDragKotodama.bind(this, txt)}
@@ -106,8 +105,8 @@ export default class BuyingWindow extends React.Component<BuyingProps, BuyingSta
 								return null;
 							}
 							return (
-								<div style={{ margin: "25px" }}>
-									<div style={container_style} key={i}>
+								<div style={{ margin: "25px" }} key={i}>
+									<div style={container_style}>
 										<Kotodama txt={txt}
 											draggable={true}
 											onDrag={this.onDragKotodama.bind(this, txt)}
@@ -120,6 +119,9 @@ export default class BuyingWindow extends React.Component<BuyingProps, BuyingSta
 							);
 						})
 					}
+					<Button type="primary" style={{ margin: "20px" }}>
+						確認購買
+                	</Button>
 				</div>
 			</div>
 		);
