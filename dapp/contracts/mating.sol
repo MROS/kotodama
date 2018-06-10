@@ -1,6 +1,6 @@
 pragma solidity ^0.4.24;
 
-contract test {
+library Mating {
  
  function max(uint a, uint b) private pure returns (uint) {
         return a > b ? a : b;

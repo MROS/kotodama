@@ -1,6 +1,7 @@
 pragma solidity ^0.4.24;
 
 import "./ERC721.sol";
+import "./mating.sol";
 
 contract Kotodamas is ERC721 {
     
