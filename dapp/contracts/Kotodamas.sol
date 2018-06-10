@@ -54,17 +54,21 @@ contract Kotodamas is ERC721 {
     }
 
 
-    function BuyOneWord(uint16[] _oneWord) public payable returns(uint256) {
+    function BuyOneWord(uint16[] _oneWord) public payable returns (uint256) {
         
-        //  initial price of one word kotodama is 0.01ETH.
-        //  if small than 0.01 ETH, reject.
+        //  Initial price of one word kotodama is 0.01ETH.
+        //  if price small than 0.01 ETH, reject.
         //  10000000000000000 wei = 0.01 eth
         require(msg.value >= 10000000000000000);
          
         bytes32 _hash = keccak256(abi.encodePacked(_oneWord));
     
-        // the kotodama is not created.
+        // the kotodama has not been created.
         if(kotoToID[_hash] == 0) {
+
+            //  checking bad request for first word in kotos.
+            assert( !(kotos.length > 0 && kotos[0].content[0] == _oneWord[0]) );
+
             Kotodama memory newKoto = Kotodama({content: _oneWord, price: 0, owner: 0});
             uint256 newKotoID = kotos.push(newKoto) - 1;
             
@@ -76,6 +80,7 @@ contract Kotodamas is ERC721 {
             _transfer(0, msg.sender, newKotoID);
             return newKotoID;
         }
+        throw;
     }
 
     ///  Create Kotodama (internal function)
@@ -87,8 +92,6 @@ contract Kotodamas is ERC721 {
         bytes32 _hash = keccak256(abi.encodePacked(_content));
         kotoToID[_hash] = newKotoID;
         
-        // TODO: KotoID overflow check
-        
         // This will assign ownership, and also emit the Transfer event as
         // per ERC721 draft
         _transfer(0, _owner, newKotoID);
@@ -97,7 +100,7 @@ contract Kotodamas is ERC721 {
     }
  
     ///  Buy the priced kotodama
-    function Buy(uint256 _kotoID) public payable returns(bool) {
+    function Buy(uint256 _kotoID) public payable returns (bool) {
         
         //  check kotoID renge
         require(_kotoID >= 0 && _kotoID < kotos.length);
@@ -121,12 +124,12 @@ contract Kotodamas is ERC721 {
     }
 
     ///  Check someone own kotodama
-    function _owns(address _owner, uint256 _kotoID) internal view returns(bool) {
+    function _owns(address _owner, uint256 _kotoID) internal view returns (bool) {
         return kotos[_kotoID].owner == _owner;
     }
     
     ///  Set Kotodama price internal function
-    function _set_price(uint256 kotoID, uint256 _price) internal returns(bool) {
+    function _set_price(uint256 kotoID, uint256 _price) internal returns (bool) {
         kotos[kotoID].price = _price;
         return true;
     }
@@ -137,12 +140,12 @@ contract Kotodamas is ERC721 {
         kotos[_kotoID].owner = _to;
         ownershipTokenCount[_to]++;
         
-        // When creating new koto _from is 0, but we can't account the address.
+        //  When creating new koto _from is 0, but we can't account the address.
         if (_from != address(0)) {
             ownershipTokenCount[_from]--;
         }
         
-        // Emit the transfer event.
+        //  Emit the transfer event.
         emit Transfer(_from, _to, _kotoID);
     }
     
@@ -163,12 +166,13 @@ contract Kotodamas is ERC721 {
     // }
     
     ///  Public setting price function by owner
-    function SetPrice(uint256 kotoID, uint256 _price) public returns(bool) {
-        // check kotomata owner
+    function SetPrice(uint256 kotoID, uint256 _price) public returns (bool) {
+
+        //  price value check
+        require(_price >= 0);
+
+        //  check kotomata owner
         if(msg.sender == kotos[kotoID].owner) {
-            // price value check;
-            if(_price < 0) return false;
-            // TODO: price overflow check
             return _set_price(kotoID, _price);
         } else {
             return false;
@@ -247,7 +251,7 @@ contract Kotodamas is ERC721 {
     }
     
     /// get hash by kotoID
-    function GetHash(uint256 _kotoID) public view returns(bytes32) {
+    function GetHash(uint256 _kotoID) public view returns (bytes32) {
         bytes32 _hash = keccak256(abi.encodePacked(kotos[_kotoID].content));
         return _hash;
     }
@@ -257,7 +261,7 @@ contract Kotodamas is ERC721 {
     ///  input: two kotodama id
     ///  return value: 0: mating failed, other: new koto id
     ///  and assign this new kotodama to `msg.sender`
-    function doMating(uint256 _id1, uint256 _id2) public returns(uint256) {
+    function doMating(uint256 _id1, uint256 _id2) public returns (uint256) {
 
         //  checking length
         require(_id1 >= 0 && _id1 < kotos.length);

@@ -15,20 +15,20 @@ library Mating {
         uint total = a_length + b_length;
         uint c_length = max(a_length, b_length) + 1;
         uint16[] memory c = new uint16[](a_length + b_length);
-        for (uint i = 0; i < a_length; i++){
+        for (uint i = 0; i < a_length; i++) {
             c[i] = a[i];
         }
 
-        for ( i = 0; i < b_length; i++){
+        for ( i = 0; i < b_length; i++) {
             c[a_length + i] = b[i];
         }
         uint index;
-        for ( i = 0; i< total-c_length; i++){
+        for ( i = 0; i< total-c_length; i++) {
 
             index = random % (total-i);
 
             random /= total;
-            for (uint l = index; l < c.length - i - 1; l++){
+            for (uint l = index; l < c.length - i - 1; l++) {
                 c[l] = c[l + 1];
             }
             delete c[c.length - i - 1];
@@ -38,7 +38,7 @@ library Mating {
         index = random % c_length;
         random /= c_length;
 
-        for (uint m = 0; m < index; m++){
+        for (uint m = 0; m < index; m++) {
 
             uint s = random % c_length;
             if (s == (c_length - 1))
