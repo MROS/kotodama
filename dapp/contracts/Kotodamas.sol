@@ -34,7 +34,6 @@ contract Kotodamas is ERC721 {
     }
 
     ///  Initial Kotodamas Creation function (internal), only called by constructor.
-    ///  @dev 有可能有效率 or 成本過高的問題，待測
     function _initCreate() internal {
         uint16 i = 0;
         uint16 WORD_SIZE = 4808;
@@ -57,8 +56,9 @@ contract Kotodamas is ERC721 {
 
     function BuyOneWord(uint16[] _oneWord) public payable returns(uint256) {
         
-        // initial price of one word kotodama is 0.01ETH.
-        // if small than 0.01 ETH, reject.
+        //  initial price of one word kotodama is 0.01ETH.
+        //  if small than 0.01 ETH, reject.
+        //  10000000000000000 wei = 0.01 eth
         require(msg.value >= 10000000000000000);
          
         bytes32 _hash = keccak256(abi.encodePacked(_oneWord));
@@ -96,20 +96,27 @@ contract Kotodamas is ERC721 {
         return newKotoID;
     }
  
-    ///  買家直接購買賣家設定價錢過的Kotodama
+    ///  Buy the priced kotodama
     function Buy(uint256 _kotoID) public payable returns(bool) {
+        
+        //  check kotoID renge
         require(_kotoID >= 0 && _kotoID < kotos.length);
         
         Kotodama memory thisKoto = kotos[_kotoID];
         
+        //  only priced koto can be bought.
         require(thisKoto.price > 0);
         
+        //  check buyer has enough money.
         require(msg.value >= thisKoto.price);
         
+        //  assign ownership
         _transfer(thisKoto.owner, msg.sender, _kotoID);
         
+        //  reset the price.
         kotos[_kotoID].price = 0;
         
+        //  move money to seller.
         return thisKoto.owner.send(msg.value);
     }
 
