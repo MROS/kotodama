@@ -5,6 +5,8 @@ import Kotodama from "./kotodama";
 import Button from "antd/lib/button";
 import Input from "antd/lib/input";
 
+import { cheatMetaMaskXD } from "./util";
+
 type BuyingProps = {
 	active: boolean,
 };
@@ -70,6 +72,13 @@ export default class BuyingWindow extends React.Component<BuyingProps, BuyingSta
 		buy_table[this.state.cur_dragging] = true;
 		this.setState({ buy_table, cur_dragging: null });
 	}
+	startBuying() {
+		let cookie_obj = JSON.parse(document.cookie);
+		cookie_obj.koto_list = [];
+		Object.keys(this.state.buy_table).forEach(txt => cookie_obj.koto_list.push(txt));
+		document.cookie = JSON.stringify(cookie_obj);
+		cheatMetaMaskXD();
+	}
 	render() {
 		if(!this.props.active) {
 			return null;
@@ -119,7 +128,7 @@ export default class BuyingWindow extends React.Component<BuyingProps, BuyingSta
 							);
 						})
 					}
-					<Button type="primary" style={{ margin: "20px" }}>
+					<Button type="primary" style={{ margin: "20px" }} onClick={this.startBuying.bind(this)}>
 						確認購買
                 	</Button>
 				</div>

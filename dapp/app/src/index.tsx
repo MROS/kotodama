@@ -73,14 +73,19 @@ class MainPage extends React.Component<null, MainState> {
 		this.web3 = initWeb3();
     }
     componentDidMount() {
-        //let list = await getKotodamaList(this.kotodamaContract);
-        let list = ["測試", "再測一次", "爽喇"];
-        let fav_table;
+        let fav_table, list;
         try {
-            fav_table = JSON.parse(document.cookie);
+			let cookie_obj = JSON.parse(document.cookie);
+			fav_table = cookie_obj.fav_table;
+			list = cookie_obj.koto_list;
         } catch(e) {
             fav_table = {};
-        }
+            list = [];
+		}
+		if(!fav_table || !list) {
+			fav_table = {};
+            list = [];
+		}
 		this.setState({ fav_table, kotodama_list: list });
     }
     setFav(s: string, fav: boolean) {
@@ -90,8 +95,10 @@ class MainPage extends React.Component<null, MainState> {
         } else {
             delete fav_table[s];
         }
-        this.setState({ fav_table });
-        document.cookie = JSON.stringify(fav_table);
+		this.setState({ fav_table });
+		let cookie_obj = JSON.parse(document.cookie);
+		cookie_obj.fav_table = fav_table;
+        document.cookie = JSON.stringify(cookie_obj);
     }
     onMainLabelClick(index) {
         this.setState({ main_window: index });
