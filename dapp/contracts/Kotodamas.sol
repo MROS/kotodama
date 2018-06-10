@@ -244,7 +244,12 @@ contract Kotodamas is ERC721 {
         bytes32 _hash = keccak256(abi.encodePacked(kotos[_kotoID].content));
         return _hash;
     }
-    
+ 
+    ///  call mating function
+    function doMating(uint16[] a, uint16[] b) public returns(uint16[]) {
+        return Mating.mating(a, b);
+    }
+
     ///  for @dev test (create koto)
     function add_test(uint16[] content, address owner) public {
         _createKoto(content, owner);
