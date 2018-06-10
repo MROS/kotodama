@@ -253,8 +253,30 @@ contract Kotodamas is ERC721 {
     }
  
     ///  call mating function
-    function doMating(uint16[] a, uint16[] b) public returns(uint16[]) {
-        return Mating.mating(a, b);
+    ///  generate new kotodama
+    ///  input: two kotodama id
+    ///  return value: 0: mating failed, other: new koto id
+    ///  and assign this new kotodama to `msg.sender`
+    function doMating(uint256 _id1, uint256 _id2) public returns(uint256) {
+
+        //  checking length
+        require(_id1 >= 0 && _id1 < kotos.length);
+        require(_id2 >= 0 && _id2 < kotos.length);
+
+        //  only owner can call doMating.
+        require(kotos[_id1].owner == msg.sender && kotos[_id2].owner == msg.sender);
+
+        uint16[] memory str1 = kotos[_id1].content;
+        uint16[] memory str2 = kotos[_id2].content;
+
+        uint16[] memory res =  Mating.mating(str1, str2);
+        bytes32 _hash = keccak256(abi.encodePacked(res));
+
+        //  checking already exist or not.
+        if(kotoToID[_hash] == 0) {
+            return _createKoto(res, msg.sender);
+        }
+        return 0;
     }
 
     ///  for @dev test (create koto)
