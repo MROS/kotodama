@@ -94,7 +94,24 @@ contract Kotodamas is ERC721 {
         
         return newKotoID;
     }
-    
+ 
+    ///  買家直接購買賣家設定價錢過的Kotodama
+    function Buy(uint256 _kotoID) public payable returns(bool) {
+        require(_kotoID >= 0 && _kotoID < kotos.length);
+        
+        Kotodama memory thisKoto = kotos[_kotoID];
+        
+        require(thisKoto.price > 0);
+        
+        require(msg.value >= thisKoto.price);
+        
+        _transfer(thisKoto.owner, msg.sender, _kotoID);
+        
+        kotos[_kotoID].price = 0;
+        
+        return thisKoto.owner.send(msg.value);
+    }
+
     ///  Check someone own kotodama
     function _owns(address _owner, uint256 _kotoID) internal view returns(bool) {
         return kotos[_kotoID].owner == _owner;
