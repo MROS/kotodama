@@ -12,6 +12,9 @@ contract Kotodamas is ERC721 {
         address owner;
     }
     
+    ///  transaction creator's address
+    address god;
+
     mapping (address => uint256) ownershipTokenCount;
     
     ///  Mapping keccak256 hash of content array to kotoID
@@ -25,7 +28,8 @@ contract Kotodamas is ERC721 {
 
     ///  Kotodamas Constructor
     constructor() public {
-        _initCreate();
+        god = msg.sender;
+        //_initCreate();
     }
 
     ///  Initial Kotodamas Creation function (internal), only called by constructor.
@@ -46,6 +50,30 @@ contract Kotodamas is ERC721 {
             // This will assign ownership, and also emit the Transfer event as
             // per ERC721 draft
             _transfer(0, msg.sender, newKotoID);
+        }
+    }
+
+
+    function BuyOneWord(uint16[] _oneWord) public payable returns(uint256) {
+        
+        // initial price of one word kotodama is 0.01ETH.
+        // if small than 0.01 ETH, reject.
+        require(msg.value >= 10000000000000000);
+         
+        bytes32 _hash = keccak256(abi.encodePacked(_oneWord));
+    
+        // the kotodama is not created.
+        if(kotoToID[_hash] == 0) {
+            Kotodama memory newKoto = Kotodama({content: _oneWord, price: 0, owner: 0});
+            uint256 newKotoID = kotos.push(newKoto) - 1;
+            
+            kotoToID[_hash] = newKotoID;
+            
+            // give money to god
+            god.transfer(msg.value);
+            
+            _transfer(0, msg.sender, newKotoID);
+            return newKotoID;
         }
     }
 
