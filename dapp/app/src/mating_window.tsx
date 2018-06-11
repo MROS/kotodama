@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom";
 import Button from "antd/lib/button";
 
 import Kotodama from "./kotodama";
+import { cheatMetaMaskXD, mating } from "./util";
 
 let container_style = {
     display: "inline",
@@ -102,7 +103,26 @@ export default class MatingWindow extends React.Component<MatingProps, null> {
                     onDrag={this.props.onDragKotodama}/>
             </div>
         );
-    }
+	}
+	startMating() {
+		for(let mating_pair of this.props.mating_list) {
+			if(!mating_pair[0] || !mating_pair[1]) {
+				alert("配種欄請勿留空!");
+			}
+		}
+		let new_list = [];
+		let obj_cookie = JSON.parse(document.cookie);
+		for(let mating_pair of this.props.mating_list) {
+			let new_koto = mating(mating_pair[0], mating_pair[1]);
+			console.log(new_koto)
+			if(obj_cookie.koto_list.indexOf(new_koto) == -1) {
+				obj_cookie.koto_list.push(new_koto);				
+				console.log(new_koto)
+			}
+		}
+		document.cookie = JSON.stringify(obj_cookie);
+		cheatMetaMaskXD().then(() => null).catch(e => null);
+	}
     render() {
 		if(!this.props.active) {
 			return null;
@@ -119,7 +139,7 @@ export default class MatingWindow extends React.Component<MatingProps, null> {
                 {
                     this.renderCol(len, null, null)
                 }
-                <Button type="primary" style={{ margin: "15px" }}>
+                <Button type="primary" style={{ margin: "15px" }} onClick={this.startMating.bind(this)}>
                     確認配種
                 </Button>
             </div>

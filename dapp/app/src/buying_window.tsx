@@ -50,7 +50,7 @@ export default class BuyingWindow extends React.Component<BuyingProps, BuyingSta
 		cur_dragging: null
 	};
 	componentDidMount() {
-		let kotodama_list = ["買我買我", "我超屌", "風", "林", "火", "山"];
+		let kotodama_list = ["買我買我", "我愛", "偉", "哥", "火", "山"];
 		let price_list = [100, 200, 50, 30, 60, 40];
 		this.setState({kotodama_list, price_list});
 	}

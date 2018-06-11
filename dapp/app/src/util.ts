@@ -24,7 +24,7 @@ async function cheatMetaMaskXD() {
 function random_integer(x) {
 	return Math.floor(Math.random() * (x + 1));
 }
-function mating(a, b) {
+function mating(a:string, b:string): string {
 	let a_length = a.length;
 	let b_length = b.length;
 	let total_length = a_length + b_length;
