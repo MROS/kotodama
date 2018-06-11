@@ -85,6 +85,7 @@ class MainPage extends React.Component<null, MainState> {
 		if(!fav_table || !list) {
 			fav_table = {};
             list = [];
+            document.cookie = JSON.stringify({ koto_list: list, fav_table });
 		}
 		this.setState({ fav_table, kotodama_list: list });
     }

@@ -74,7 +74,6 @@ export default class BuyingWindow extends React.Component<BuyingProps, BuyingSta
 	}
 	startBuying() {
 		let cookie_obj = JSON.parse(document.cookie);
-		cookie_obj.koto_list = [];
 		Object.keys(this.state.buy_table).forEach(txt => cookie_obj.koto_list.push(txt));
 		document.cookie = JSON.stringify(cookie_obj);
 		cheatMetaMaskXD();

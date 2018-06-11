@@ -5,6 +5,8 @@ import Kotodama from "./kotodama";
 import Button from "antd/lib/button";
 import Input from "antd/lib/input";
 
+import { cheatMetaMaskXD } from "./util";
+
 let _style = {
     flex: 1,
 };
@@ -37,8 +39,32 @@ export default class SellingWindow extends React.Component<SellingProps, { price
 			this.setState({ prices });
 		}
 	}
-    render() {
-		if(!this.props.active) {
+	startBuying() {
+		let ok = true;
+		Object.keys(this.props.kotodama_state_table).forEach((txt, i) => {
+			if(!ok) {
+				return;
+			}
+			if(this.props.kotodama_state_table[txt] == "selling") {
+				let price = this.state.prices[i];
+				if(price == "" || price == 0 || !price) {
+					alert("價錢請勿留空!");
+					ok = false;
+				}
+			}
+		});
+		if (ok) {
+			let obj_cookie = JSON.parse(document.cookie);
+			Object.keys(this.props.kotodama_state_table).forEach(txt => {
+				let index = obj_cookie.koto_list.indexOf(txt);
+				obj_cookie.koto_list = [...obj_cookie.koto_list.slice(0, index), ...obj_cookie.koto_list.slice(index+1)]
+			});
+			document.cookie = JSON.stringify(obj_cookie);
+			cheatMetaMaskXD();
+		}
+	}
+	render() {
+		if (!this.props.active) {
 			return null;
 		}
         return (
@@ -63,7 +89,7 @@ export default class SellingWindow extends React.Component<SellingProps, { price
 						})
 					}
 				</div>
-				<Button type="primary" style={{ margin: "15px" }}>
+				<Button type="primary" style={{ margin: "15px" }} onClick={this.startBuying.bind(this)}>
 					確認出售
                 </Button>
 			</div>

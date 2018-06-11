@@ -107,7 +107,8 @@ export default class MatingWindow extends React.Component<MatingProps, null> {
 	startMating() {
 		for(let mating_pair of this.props.mating_list) {
 			if(!mating_pair[0] || !mating_pair[1]) {
-				alert("配種欄請勿留空!");
+                alert("配種欄請勿留空!");
+                return;
 			}
 		}
 		let new_list = [];
